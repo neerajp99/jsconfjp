@@ -1,0 +1,8 @@
+# Pin the compiler this demo was verified with. rustup reads this file for every
+# cargo command under this directory (bench/native included) and installs the
+# toolchain and the wasm32 target on first use. Cargo.lock is format v4, which
+# older toolchains cannot read.
+[toolchain]
+channel = "1.97.1"
+targets = ["wasm32-unknown-unknown"]
+profile = "minimal"

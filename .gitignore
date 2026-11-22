@@ -1,0 +1,16 @@
+target/
+node_modules/
+dist/
+worker/dist/
+worker/src/modules.js
+worker/.wrangler/
+pkg/dist/
+*.wasm
+*.node
+*.tgz
+# The cold open installs this tarball; it must exist in a fresh checkout.
+!coldopen/native-hello/native-hello-1.0.0.tgz
+coldopen/app/package-lock.json
+imaging.evil.wasm
+evil/dist/
+bench/*.node

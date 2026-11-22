@@ -1,0 +1,13 @@
+{
+  "name": "@demo/imaging",
+  "version": "0.1.0",
+  "description": "Image resizing as a WebAssembly Component. No install scripts, no native binaries.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/imaging.d.ts",
+      "default": "./dist/imaging.js"
+    }
+  },
+  "files": ["dist"]
+}

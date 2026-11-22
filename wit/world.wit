@@ -1,0 +1,56 @@
+package demo:imaging@0.1.0;
+
+/// Resize an encoded image and re-encode it. Implemented in Rust (src/lib.rs).
+///
+/// jco turns an exported interface into a JavaScript namespace object, so JavaScript
+/// calls this as `resize.resize(...)`: the first `resize` is this interface, the
+/// second is the function inside it.
+interface resize {
+  /// Output encoding.
+  variant format {
+    /// Lossless PNG.
+    png,
+    /// JPEG with a quality from 1 to 100 (the encoder clamps other values).
+    jpeg(u8),
+    /// Lossless WebP.
+    webp,
+  }
+
+  /// The box to fit the image into, and the output encoding.
+  record options {
+    /// Maximum output width in pixels, 1 to 8192. The aspect ratio is preserved.
+    width: u32,
+    /// Maximum output height in pixels, 1 to 8192.
+    height: u32,
+    format: format,
+  }
+
+  /// Decode `input` (PNG, JPEG or WebP), fit it inside `width` x `height`, re-encode it.
+  /// The error string starts with `size:`, `decode:` or `encode:`.
+  resize: func(input: list<u8>, opts: options) -> result<list<u8>, string>;
+}
+
+/// The Rust crate: one export, no imports.
+world imaging {
+  export resize;
+}
+
+/// Turn a resize result into an HTTP-shaped response.
+interface thumbnails {
+  record response {
+    status: u16,
+    content-type: string,
+    cache-control: string,
+    body: list<u8>,
+  }
+
+  /// Fit `input` into a `width` x `width` box as WebP. Errors become a 422 response.
+  thumbnail: func(input: list<u8>, width: u32) -> response;
+}
+
+/// The JavaScript formatter: needs `resize`, offers `thumbnails`.
+/// `wac plug` satisfies the import with the `imaging` component's export.
+world formatter {
+  import resize;
+  export thumbnails;
+}

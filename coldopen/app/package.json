@@ -1,0 +1,1 @@
+{"name":"app","version":"1.0.0","private":true,"dependencies":{"native-hello":"file:../native-hello/native-hello-1.0.0.tgz"}}
